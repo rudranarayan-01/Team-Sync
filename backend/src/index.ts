@@ -33,3 +33,6 @@ app.get('/',(req:Request,res:Response, next:NextFunction)=>{
     res.status(200).json({message:"API is running in API get" });
 })
 
+app.listen(config.PORT, () => {
+    console.log(`Server is running on port ${config.PORT} in ${config.NODE_ENV} mode.`);
+});
