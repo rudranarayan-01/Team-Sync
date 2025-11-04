@@ -1,6 +1,6 @@
-import { getEnv } from "../utils/get-env"
+import { getEnv } from "../utils/get-env";
 
-const appConfig = () =>({
+const appConfig = () => ({
     NODE_ENV: getEnv("NODE_ENV", "development"),
     PORT: getEnv("PORT", "5000"),
     BASE_PATH: getEnv("BASE_PATH", "/api"),
@@ -18,4 +18,3 @@ const appConfig = () =>({
 });
 
 export const config = appConfig();
-// export type AppConfig = ReturnType<typeof appConfig>;
