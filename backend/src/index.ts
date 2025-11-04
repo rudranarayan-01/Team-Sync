@@ -32,8 +32,12 @@ app.use(
 );
 
 
-app.get('/',(req:Request,res:Response, next:NextFunction)=>{
-    res.status(HTTPSTATUS.OK).json({message:"API is running in API get" });
+app.get('/',async(req:Request,res:Response, next:NextFunction)=>{
+    try{
+        res.status(HTTPSTATUS.OK).json({message:"Hello, API is running" });
+    }catch(error){
+        next(error);
+    }
 })
 
 app.use(errorHandler);
