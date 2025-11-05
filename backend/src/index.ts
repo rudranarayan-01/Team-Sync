@@ -7,6 +7,8 @@ import connectDatabse from "./config/database.config";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { HTTPSTATUS } from "./config/http.config";
 import { asyncHandler } from "./middlewares/asynchandler.middleware";
+import { BadRequestException } from "./utils/appError";
+import { ErrorCodeEnum } from "./enums/error-code.enum";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH
@@ -34,7 +36,8 @@ app.use(
 
 
 app.get('/', asyncHandler(async(req: Request, res: Response, next: NextFunction) => {
-    res.status(HTTPSTATUS.OK).json({
+    // throw new BadRequestException("Test Error Handling Middleware",ErrorCodeEnum.AUTH_INVALID_TOKEN);
+    return res.status(HTTPSTATUS.OK).json({
         message: "API is running"
     });
 })
