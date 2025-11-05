@@ -33,11 +33,10 @@ app.use(
 );
 
 
-app.get('/', asyncHandler((req: Request, res: Response, next: NextFunction) => {
-    throw new Error("Test Error ");
+app.get('/', asyncHandler(async(req: Request, res: Response, next: NextFunction) => {
     res.status(HTTPSTATUS.OK).json({
         message: "API is running"
-    })
+    });
 })
 );
 
