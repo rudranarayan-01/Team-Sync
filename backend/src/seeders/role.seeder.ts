@@ -18,9 +18,10 @@ const seedRoles = async () => {
         for (const roleName in RolePermissions){
             const role = roleName as keyof typeof RolePermissions;
             const permissions = RolePermissions[role];
-        }
-        
 
+            // check if the role already exists
+            const existingRole = await RoleModel.findOne({ name: role }).session(session);
+        };
     }catch (error) {
         console.error("Error seeding roles:", error);
     }
