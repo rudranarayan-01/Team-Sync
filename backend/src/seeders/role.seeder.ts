@@ -43,3 +43,7 @@ const seedRoles = async () => {
     }
 
 }
+
+seedRoles().catch((error) => {
+    console.error("Error running seed script:", error);
+});
