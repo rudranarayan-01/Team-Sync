@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mongoose from "mongoose";
 import connectDatabse from "../config/database.config";
 import RoleModel from "../models/roles-permission.model";
