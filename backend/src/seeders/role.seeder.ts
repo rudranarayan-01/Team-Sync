@@ -29,6 +29,8 @@ const seedRoles = async () => {
                 });
                 await newRole.save({ session });
                 console.log(`Role '${role}' created with permissions:`, permissions);
+            }else {
+                console.log(`Role '${role}' already exists. Skipping creation.`);
             }
         };
     } catch (error) {
