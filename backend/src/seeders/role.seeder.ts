@@ -33,6 +33,9 @@ const seedRoles = async () => {
                 console.log(`Role '${role}' already exists. Skipping creation.`);
             }
         };
+        await session.commitTransaction();
+        session.endSession();
+        console.log("Seeding roles completed successfully.");
     } catch (error) {
         console.error("Error seeding roles:", error);
     }
