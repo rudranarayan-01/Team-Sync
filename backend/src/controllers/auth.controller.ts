@@ -22,6 +22,8 @@ export const googleLoginCallback = asyncHandler(
     }
 );
 
+// All fine till now :)
+
 export const registerUserController = asyncHandler(
     async (req: Request, res: Response) => {
         const body = registerSchema.parse({
