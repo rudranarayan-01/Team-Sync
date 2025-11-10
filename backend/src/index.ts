@@ -12,6 +12,7 @@ import { ErrorCodeEnum } from "./enums/error-code.enum";
 import "./config/passport.config";
 import passport from "passport";
 import authRoutes from "./routes/auth.route";
+import userRoutes from "./routes/user.route";
 
 
 const app = express();
@@ -51,6 +52,7 @@ app.get('/', asyncHandler(async(req: Request, res: Response, next: NextFunction)
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
+app.use(`${BASE_PATH}/user`, userRoutes);
 
 
 
