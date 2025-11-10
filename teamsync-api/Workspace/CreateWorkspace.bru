@@ -1,0 +1,18 @@
+meta {
+  name: CreateWorkspace
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8000/api/workspace/create/new
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"Design Workspace",
+    "description":"This is design team workspace"
+  }
+}
