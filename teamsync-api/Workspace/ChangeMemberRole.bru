@@ -5,7 +5,14 @@ meta {
 }
 
 get {
-  url: http://localhost:8000/api/workspace/members/
-  body: none
-  auth: none
+  url: http://localhost:8000/api/workspace/change/member/role/69133031e7ba570763b31039
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "roleId":"690f42363de7079694716b45",
+    "memberId":"6913f54b379b4aebf06df994"
+  }
 }
