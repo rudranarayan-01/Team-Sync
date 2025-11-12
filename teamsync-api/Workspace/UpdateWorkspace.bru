@@ -4,6 +4,15 @@ meta {
   seq: 1
 }
 
-get {
-  url: 
+put {
+  url: http://localhost:8000/api/workspace/update/69133031e7ba570763b31039
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name":"Development Workspace by Test User",
+    "description":"This is the development workspace by Test User, where Sammy is MEMBER and Jhon is ADMIN "
+  }
 }
