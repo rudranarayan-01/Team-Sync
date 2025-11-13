@@ -4,6 +4,16 @@ meta {
   seq: 1
 }
 
-get {
-  url: 
+post {
+  url: http://localhost:8000/api/project/workspace/69133031e7ba570763b31039/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "emoji":"🧩",
+    "name":"Backend Project of Development team",
+    "description":"This is project of Development Workspace, Login as Test user(OWNER)"
+  }
 }
