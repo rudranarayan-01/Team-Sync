@@ -9,6 +9,7 @@ This application allows teams to create workspaces, manage tasks, track progress
   - Join workspace via invite code
   - View workspace analytics
   - Real-time workspace updates
+  - Role-based access control
 
 ## 📌 Task Management
   - Create tasks within a workspace
@@ -52,5 +53,7 @@ This application allows teams to create workspaces, manage tasks, track progress
   - Real-time collaboration using WebSockets
   - Activity logs
   - File attachments in tasks
-  - Role-based access control
   - Calendar view for tasks
+    
+## 🤝 Contributing
+  Pull requests are welcome. For major changes, please create an issue first to discuss what you would like to change.
