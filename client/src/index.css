@@ -176,6 +176,7 @@ em-emoji-picker {
   }
 }
 
+
 @layer base {
   * {
     @apply border-border;
@@ -187,4 +188,23 @@ em-emoji-picker {
   button[data-placeholder] {
     @apply text-muted-foreground;
   }
+}
+
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2.5s infinite;
 }
