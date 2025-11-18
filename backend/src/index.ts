@@ -51,7 +51,7 @@ app.use(
 );
 
 
-app.get('/', asyncHandler(async(req: Request, res: Response, next: NextFunction) => {
+app.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     // throw new BadRequestException("Test Error Handling Middleware",ErrorCodeEnum.AUTH_INVALID_TOKEN);
     return res.status(HTTPSTATUS.OK).json({
         message: "API is running"
@@ -60,8 +60,8 @@ app.get('/', asyncHandler(async(req: Request, res: Response, next: NextFunction)
 );
 
 app.use(`${BASE_PATH}/auth`, authRoutes);
-app.use(`${BASE_PATH}/user`, isAuthenticated ,userRoutes);
-app.use(`${BASE_PATH}/workspace`, isAuthenticated ,workspaceRoutes);
+app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
+app.use(`${BASE_PATH}/workspace`, isAuthenticated, workspaceRoutes);
 app.use(`${BASE_PATH}/member`, isAuthenticated, memberRoutes);
 app.use(`${BASE_PATH}/project`, isAuthenticated, projectRoutes);
 app.use(`${BASE_PATH}/task`, isAuthenticated, taskRoutes);
@@ -76,3 +76,12 @@ app.listen(config.PORT, async () => {
     await connectDatabse();
 });
 
+
+/// Serving frontend in production ///
+import path from "path";
+
+app.use(express.static(path.join(__dirname, "../public")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
+});
