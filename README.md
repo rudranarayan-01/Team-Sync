@@ -48,19 +48,9 @@ This application allows teams to create workspaces, manage tasks, track progress
   MongoDB
   Mongoose ORM
 
-## Project Structure
-
-  team-sync/
-     ├── client/                # React frontend
-     │   ├── src/
-     │   ├── components/
-     │   ├── pages/
-     │   └── redux/
-     ├── backend/                # Node + Express backend
-     │   ├── models/
-     │   ├── controllers/
-     │   ├── routes/
-     │   └── middleware/
-     ├── teamsync-api/          # API test results 
-     ├── README.md
-     └── package.json
+## 🧩 Future Enhancements
+  - Real-time collaboration using WebSockets
+  - Activity logs
+  - File attachments in tasks
+  - Role-based access control
+  - Calendar view for tasks
