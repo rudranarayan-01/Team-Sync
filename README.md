@@ -50,17 +50,17 @@ This application allows teams to create workspaces, manage tasks, track progress
 
 ## Project Structure
 
-team-sync/
-   ├── client/                # React frontend
-   │   ├── src/
-   │   ├── components/
-   │   ├── pages/
-   │   └── redux/
-   ├── backend/                # Node + Express backend
-   │   ├── models/
-   │   ├── controllers/
-   │   ├── routes/
-   │   └── middleware/
-   ├── teamsync-api/          # API test results 
-   ├── README.md
-   └── package.json
+  team-sync/
+     ├── client/                # React frontend
+     │   ├── src/
+     │   ├── components/
+     │   ├── pages/
+     │   └── redux/
+     ├── backend/                # Node + Express backend
+     │   ├── models/
+     │   ├── controllers/
+     │   ├── routes/
+     │   └── middleware/
+     ├── teamsync-api/          # API test results 
+     ├── README.md
+     └── package.json
