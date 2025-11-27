@@ -28,27 +28,43 @@ const BASE_PATH = config.BASE_PATH
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+// session block 
+const isProd = config.NODE_ENV === "production";
 app.use(
     session({
         name: "session",
         keys: [config.SESSION_SECRET],
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        secure: config.NODE_ENV === "production",
+        secure: isProd,             // must be true in production (HTTPS)
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: isProd ? "none" : "lax", // none for cross-site cookies in prod
     })
-)
+);
+
 
 app.use(passport.initialize());
 app.use(passport.session());
+const allowedOrigins = [
+    "https://team-sync-gamma.vercel.app",
+    // make sure config.FRONTEND_ORIGIN has no trailing slash
+    config.FRONTEND_ORIGIN?.replace(/\/+$/, ""),
+    "http://localhost:3000",
+    "http://localhost:5173"
+].filter(Boolean);
 
 app.use(
     cors({
-        origin: config.FRONTEND_ORIGIN,
-        // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        origin: (origin, callback) => {
+            if (!origin) return callback(null, true); // allow Postman, server-to-server
+            if (allowedOrigins.includes(origin)) return callback(null, true);
+            return callback(null, false);
+        },
         credentials: true,
     })
 );
+
 
 
 app.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -70,18 +86,22 @@ app.use(`${BASE_PATH}/task`, isAuthenticated, taskRoutes);
 
 app.use(errorHandler);
 
+// Serve frontend in production (do this BEFORE app.listen)
+import path from "path";
+import fs from "fs";
+
+const publicDist = path.join(__dirname, "../public"); // where you copied frontend build
+if (fs.existsSync(publicDist)) {
+    app.use(express.static(publicDist));
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(publicDist, "index.html"));
+    });
+}
+
+
 
 app.listen(config.PORT, async () => {
     console.log(`Server is running on port ${config.PORT} in ${config.NODE_ENV} mode.`);
     await connectDatabse();
 });
 
-
-/// Serving frontend in production ///
-import path from "path";
-
-app.use(express.static(path.join(__dirname, "../public")));
-
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/index.html"));
-});
