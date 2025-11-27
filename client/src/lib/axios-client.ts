@@ -18,11 +18,8 @@ API.interceptors.response.use(
   async (error) => {
     const { data, status } = error.response;
 
-    if (status === 401) {
-      // Only redirect if user is on a protected page
-      if (!window.location.pathname.startsWith("/auth")) {
-        window.location.href = "/";
-      }
+    if (data === "Unauthorized" && status === 401) {
+      window.location.href = "/";
     }
 
     const customError: CustomError = {
