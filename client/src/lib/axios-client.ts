@@ -21,7 +21,7 @@ API.interceptors.response.use(
     if (status === 401) {
       // Only redirect if user is on a protected page
       if (!window.location.pathname.startsWith("/auth")) {
-        window.location.href = "/api/auth/login";
+        window.location.href = "/";
       }
     }
 
