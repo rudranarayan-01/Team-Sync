@@ -47,7 +47,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 const allowedOrigins = [
-    "https://team-sync-gamma.vercel.app",
+    "https://teamsync-frontend-605k.onrender.com",
     // make sure config.FRONTEND_ORIGIN has no trailing slash
     config.FRONTEND_ORIGIN?.replace(/\/+$/, ""),
     "http://localhost:3000",
