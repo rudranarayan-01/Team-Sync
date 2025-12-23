@@ -18,37 +18,39 @@ import workspaceRoutes from "./routes/workspace.route";
 import memberRoutes from "./routes/member.route";
 import projectRoutes from "./routes/project.route";
 import taskRoutes from "./routes/task.route";
-
-// Setting for deployment on serverless platforms
-// import serverless from "serverless-http";
-
+import path from "path";
+import fs from "fs";
 
 const app = express();
-const BASE_PATH = config.BASE_PATH
+
+// --- CRITICAL FIX FOR RENDER DEPLOYMENT ---
+// This allows Express to trust the Render proxy and send secure cookies
+app.set("trust proxy", 1); 
+
+const BASE_PATH = config.BASE_PATH;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-// session block 
+// Session block updated for Cross-Site support
 const isProd = config.NODE_ENV === "production";
+
 app.use(
     session({
         name: "session",
         keys: [config.SESSION_SECRET],
         maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        secure: isProd,             // must be true in production (HTTPS)
+        secure: isProd,               // true in production
         httpOnly: true,
-        sameSite: isProd ? "none" : "lax", // none for cross-site cookies in prod
+        sameSite: isProd ? "none" : "lax", // Must be "none" if frontend/backend URLs differ
     })
 );
 
-
 app.use(passport.initialize());
 app.use(passport.session());
+
 const allowedOrigins = [
     "https://teamsync-frontend-605k.onrender.com",
-    // make sure config.FRONTEND_ORIGIN has no trailing slash
     config.FRONTEND_ORIGIN?.replace(/\/+$/, ""),
     "http://localhost:3000",
     "http://localhost:5173"
@@ -57,24 +59,25 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: (origin, callback) => {
-            if (!origin) return callback(null, true); // allow Postman, server-to-server
-            if (allowedOrigins.includes(origin)) return callback(null, true);
-            return callback(null, false);
+            // Allow requests with no origin (like mobile apps or curl)
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            } else {
+                return callback(new Error("Not allowed by CORS"));
+            }
         },
-        credentials: true,
+        credentials: true, // Required to accept cookies from frontend
     })
 );
 
-
-
-app.get('/', asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    // throw new BadRequestException("Test Error Handling Middleware",ErrorCodeEnum.AUTH_INVALID_TOKEN);
+app.get('/', asyncHandler(async (req: Request, res: Response) => {
     return res.status(HTTPSTATUS.OK).json({
         message: "API is running"
     });
-})
-);
+}));
 
+// Routes
 app.use(`${BASE_PATH}/auth`, authRoutes);
 app.use(`${BASE_PATH}/user`, isAuthenticated, userRoutes);
 app.use(`${BASE_PATH}/workspace`, isAuthenticated, workspaceRoutes);
@@ -82,15 +85,10 @@ app.use(`${BASE_PATH}/member`, isAuthenticated, memberRoutes);
 app.use(`${BASE_PATH}/project`, isAuthenticated, projectRoutes);
 app.use(`${BASE_PATH}/task`, isAuthenticated, taskRoutes);
 
-
-
 app.use(errorHandler);
 
-// Serve frontend in production (do this BEFORE app.listen)
-import path from "path";
-import fs from "fs";
-
-const publicDist = path.join(__dirname, "../public"); // where you copied frontend build
+// Serve frontend in production (Only if you are deploying as a Monolith)
+const publicDist = path.join(__dirname, "../public");
 if (fs.existsSync(publicDist)) {
     app.use(express.static(publicDist));
     app.get("*", (req, res) => {
@@ -98,10 +96,7 @@ if (fs.existsSync(publicDist)) {
     });
 }
 
-
-
 app.listen(config.PORT, async () => {
     console.log(`Server is running on port ${config.PORT} in ${config.NODE_ENV} mode.`);
     await connectDatabse();
 });
-
