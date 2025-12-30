@@ -58,3 +58,5 @@ This application allows teams to create workspaces, manage tasks, track progress
     
 ## 🤝 Contributing
   Pull requests are welcome. For major changes, please create an issue first to discuss what you would like to change.
+
+  Server : https://team-sync-3r7e.onrender.com
